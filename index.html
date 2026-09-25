@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Projekt-Showcase</title>
+<meta name="description" content="Sammlung von Design-Entwürfen und Prototypen.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=Public+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+  :root {
+    color-scheme: light;
+    --paper: #F4F1EA;
+    --surface: #FFFFFF;
+    --ink: #17212A;
+    --ink-soft: #59636C;
+    --rule: #DAD3C2;
+    --petrol: #0E5A63;
+    --petrol-ink: #FFFFFF;
+    --marker: #E8B23D;
+
+    --f-display: "Newsreader", Georgia, "Times New Roman", serif;
+    --f-body: "Public Sans", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    --f-mono: "IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+
+    --wrap: 920px;
+    --gutter: clamp(16px, 4vw, 40px);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      color-scheme: dark;
+      --paper: #10191E; --surface: #17232A; --ink: #E9ECE7; --ink-soft: #9BA9AD;
+      --rule: #29373D; --petrol: #58BFC7; --petrol-ink: #0C1418; --marker: #D9AE4E;
+    }
+  }
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    --paper: #10191E; --surface: #17232A; --ink: #E9ECE7; --ink-soft: #9BA9AD;
+    --rule: #29373D; --petrol: #58BFC7; --petrol-ink: #0C1418; --marker: #D9AE4E;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--f-body); font-size: 17px; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+  a { color: inherit; }
+  .wrap { max-width: var(--wrap); margin-inline: auto; padding-inline: var(--gutter); }
+  header { padding-block: clamp(56px, 9vw, 96px) clamp(40px, 6vw, 64px); border-bottom: 1px solid var(--rule); }
+  .label { font-family: var(--f-mono); font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-soft); display: flex; align-items: center; gap: 10px; }
+  .label::before { content: ""; width: 18px; height: 1px; background: var(--petrol); }
+  h1 { font-family: var(--f-display); font-weight: 400; font-size: clamp(34px, 5vw, 52px); line-height: 1.1; margin: 18px 0 0; text-wrap: balance; }
+  .lead { font-size: 18px; color: var(--ink-soft); max-width: 56ch; margin-top: 18px; }
+  main { padding-block: clamp(40px, 6vw, 72px) clamp(64px, 9vw, 100px); }
+  .list { display: grid; gap: 1px; background: var(--rule); border: 1px solid var(--rule); }
+  .card {
+    background: var(--surface); text-decoration: none; color: var(--ink);
+    padding: 28px clamp(20px, 4vw, 32px); display: grid; grid-template-columns: 1fr auto; gap: 8px 20px; align-items: center;
+    transition: background .15s ease;
+  }
+  .card:hover { background: color-mix(in srgb, var(--petrol) 8%, var(--surface)); }
+  .card .meta { font-family: var(--f-mono); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--petrol); }
+  .card h2 { font-family: var(--f-display); font-weight: 500; font-size: 24px; margin: 4px 0 0; }
+  .card p { color: var(--ink-soft); font-size: 15px; margin-top: 6px; max-width: 56ch; }
+  .card .arrow { font-family: var(--f-mono); font-size: 20px; color: var(--petrol); }
+  .empty { padding: 48px 0; color: var(--ink-soft); font-size: 15px; }
+  footer { border-top: 1px solid var(--rule); padding-block: 28px; font-size: 14px; color: var(--ink-soft); }
+</style>
+</head>
+<body>
+  <header class="wrap">
+    <div class="label">Showcase</div>
+    <h1>Entwürfe &amp; Prototypen.</h1>
+    <p class="lead">Eine Sammlung von Design-Entwürfen, die hier vorab gezeigt und getestet werden, bevor sie live gehen.</p>
+  </header>
+  <main class="wrap">
+    <div class="list">
+      <a class="card" href="roberthofer/">
+        <div>
+          <div class="meta">Website-Redesign</div>
+          <h2>Robert Hofer — Kommunikation</h2>
+          <p>Redesign-Entwurf für roberthofer.at auf Basis der bestehenden Inhalte.</p>
+        </div>
+        <span class="arrow">→</span>
+      </a>
+    </div>
+  </main>
+  <footer class="wrap">
+    <span>Privates Test- &amp; Vorschau-Repository · nicht für Suchmaschinen bestimmt</span>
+  </footer>
+</body>
+</html>
