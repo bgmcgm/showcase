@@ -126,15 +126,22 @@
   .nav ul a { text-decoration: none; color: var(--ink-soft); letter-spacing: .02em; }
   .nav ul a:hover { color: var(--ink); }
   .btn {
-    display: inline-flex; align-items: center; gap: 10px;
-    background: var(--petrol); color: var(--petrol-ink);
-    border: 0; border-radius: 2px;
-    padding: 12px 20px; font: 600 14px/1 var(--f-body); letter-spacing: .01em;
-    text-decoration: none; cursor: pointer;
-    transition: transform .15s ease;
+    position: relative; display: inline-flex; align-items: center;
+    background: none; color: var(--ink);
+    border: 1px solid var(--ink); border-radius: 0;
+    padding: 13px 22px; font: 600 12.5px/1 var(--f-mono); letter-spacing: .08em; text-transform: uppercase;
+    text-decoration: none; cursor: pointer; overflow: hidden; isolation: isolate;
   }
-  .btn:hover { transform: translateY(-1px); }
-  .btn.ghost { background: transparent; color: var(--ink); box-shadow: inset 0 0 0 1px var(--rule); }
+  .btn::before {
+    content: ""; position: absolute; inset: 0; z-index: -1;
+    background: var(--ink); transform: scaleX(0); transform-origin: left;
+    transition: transform .22s ease;
+  }
+  .btn:hover::before, .btn:focus-visible::before { transform: scaleX(1); }
+  .btn:hover, .btn:focus-visible { color: var(--paper); }
+  .btn.ghost { border-color: var(--rule); color: var(--ink-soft); }
+  .btn.ghost::before { background: var(--petrol); }
+  .btn.ghost:hover, .btn.ghost:focus-visible { color: var(--petrol-ink); border-color: var(--petrol); }
   @media (max-width: 900px) { .nav ul { display: none; } }
 
   /* Hero: photo dominant */
@@ -179,25 +186,20 @@
   .tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; }
   .tags li { list-style: none; font-family: var(--f-mono); font-size: 12px; padding: 5px 11px; border: 1px solid var(--rule); color: var(--ink-soft); }
 
-  /* Expertise / Angebot grids */
-  .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--rule); border: 1px solid var(--rule); }
-  .grid.cols-4 > * , .grid > * { background: var(--surface); padding: 26px 22px; display: grid; gap: 10px; align-content: start; }
-  .grid h3 { font-size: 17px; }
-  .grid p, .grid ul { color: var(--ink-soft); font-size: 15px; }
-  .grid ul { margin: 0; padding-left: 18px; }
-  @media (max-width: 900px) { .grid { grid-template-columns: repeat(2, 1fr); } }
-  @media (max-width: 520px) { .grid { grid-template-columns: 1fr; } }
+  /* Expertise: dossier index, not a card grid */
+  .dossier { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; column-gap: 56px; }
+  .dossier li { display: flex; gap: 18px; padding: 24px 0; border-top: 1px solid var(--rule); }
+  .dossier .num { font-family: var(--f-display); font-style: italic; font-size: 26px; color: var(--petrol); line-height: 1.15; flex: none; width: 2.2ch; }
+  .dossier h3 { font-size: 17px; }
+  .dossier p { color: var(--ink-soft); font-size: 15px; margin-top: 5px; }
+  @media (max-width: 760px) { .dossier { grid-template-columns: 1fr; } }
 
-  .offer { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--rule); border: 1px solid var(--rule); }
-  .offer > div { background: var(--petrol); color: var(--petrol-ink); padding: 28px 24px; display: grid; gap: 12px; align-content: start; }
-  .offer > div:nth-child(2) { background: color-mix(in srgb, var(--petrol) 86%, black 6%); }
-  .offer > div:nth-child(3) { background: color-mix(in srgb, var(--petrol) 72%, black 12%); }
-  .offer > div:nth-child(4) { background: color-mix(in srgb, var(--petrol) 58%, black 18%); }
-  .offer h3 { color: inherit; }
-  .offer ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 6px; font-size: 14.5px; opacity: .92; }
-  .offer li::before { content: "— "; }
-  @media (max-width: 900px) { .offer { grid-template-columns: repeat(2, 1fr); } }
-  @media (max-width: 520px) { .offer { grid-template-columns: 1fr; } }
+  /* Angebot: rate-card rows instead of colored tiles */
+  .menu { border-top: 1px solid var(--rule); }
+  .menu-row { display: grid; grid-template-columns: 260px 1fr; gap: 12px 28px; padding: 26px 0; border-bottom: 1px solid var(--rule); align-items: baseline; }
+  .menu-row h3 { font-size: 20px; }
+  .menu-row p { color: var(--ink-soft); font-size: 15.5px; }
+  @media (max-width: 700px) { .menu-row { grid-template-columns: 1fr; gap: 6px; } }
 
   /* Partner strip */
   .partners .wrap { display: flex; flex-wrap: wrap; align-items: center; gap: 28px 44px; padding-block: 28px; }
@@ -226,13 +228,15 @@
   .media-list .src { display: block; font-family: var(--f-mono); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-soft); margin-top: 4px; }
   @media (max-width: 600px) { .media-list { columns: 1; } }
 
-  /* Engagements */
-  .engage { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; background: var(--rule); border: 1px solid var(--rule); }
-  .engage > div { background: var(--surface); padding: 28px; display: grid; gap: 10px; }
-  .engage .role { font-family: var(--f-mono); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--petrol); }
-  .engage a { color: var(--petrol); font-size: 15px; text-decoration: none; }
+  /* Engagements: rows, matching the dossier/menu idiom */
+  .engage { border-top: 1px solid var(--rule); }
+  .engage > div { display: grid; grid-template-columns: 1fr auto; column-gap: 24px; row-gap: 6px; align-items: baseline; padding: 26px 0; border-bottom: 1px solid var(--rule); }
+  .engage .role { font-family: var(--f-mono); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--petrol); grid-column: 1 / -1; }
+  .engage h3 { font-size: 20px; grid-column: 1; }
+  .engage p { color: var(--ink-soft); font-size: 15px; grid-column: 1 / -1; }
+  .engage a { color: var(--petrol); font-size: 14px; text-decoration: none; grid-column: 2; }
   .engage a:hover { text-decoration: underline; }
-  @media (max-width: 700px) { .engage { grid-template-columns: 1fr; } }
+  @media (max-width: 560px) { .engage > div { grid-template-columns: 1fr; } .engage a { grid-column: 1; } }
 
   /* Quote */
   .pull { background: var(--dark-band); color: var(--dark-band-ink); }
@@ -338,15 +342,15 @@
       <h2>Sieben Felder, ein gemeinsamer Nenner.</h2>
     </div>
     <div class="wrap">
-      <div class="grid">
-        <div><h3>Unternehmens- &amp; Pressesprecher</h3><p>Öffentliches Sprachrohr für Konzerne und mittelständische Unternehmen.</p></div>
-        <div><h3>Marketing &amp; Public Relations</h3><p>Ganzheitliche Markenkommunikation.</p></div>
-        <div><h3>Public Affairs &amp; Interessenvertretung</h3><p>Politische und gesellschaftliche Kommunikation.</p></div>
-        <div><h3>Führung &amp; Management</h3><p>Change Management, Organisationsentwicklung.</p></div>
-        <div><h3>Sales &amp; Beratung</h3><p>Sales Specialist in PR, IT und Gewerbekundenberatung.</p></div>
-        <div><h3>Präsentation &amp; Moderation</h3><p>Leitung von online/offline Veranstaltungen, Diskussionen, Interviews und Führung des Publikums.</p></div>
-        <div><h3>Wissenschaft &amp; Lehre</h3><p>Universitätslektor, juristische Grundausbildung, Verbindung von Theorie und unternehmerischer Praxis.</p></div>
-      </div>
+      <ol class="dossier">
+        <li><span class="num">01</span><div><h3>Unternehmens- &amp; Pressesprecher</h3><p>Öffentliches Sprachrohr für Konzerne und mittelständische Unternehmen.</p></div></li>
+        <li><span class="num">02</span><div><h3>Marketing &amp; Public Relations</h3><p>Ganzheitliche Markenkommunikation.</p></div></li>
+        <li><span class="num">03</span><div><h3>Public Affairs &amp; Interessenvertretung</h3><p>Politische und gesellschaftliche Kommunikation.</p></div></li>
+        <li><span class="num">04</span><div><h3>Führung &amp; Management</h3><p>Change Management, Organisationsentwicklung.</p></div></li>
+        <li><span class="num">05</span><div><h3>Sales &amp; Beratung</h3><p>Sales Specialist in PR, IT und Gewerbekundenberatung.</p></div></li>
+        <li><span class="num">06</span><div><h3>Präsentation &amp; Moderation</h3><p>Leitung von online/offline Veranstaltungen, Diskussionen, Interviews und Führung des Publikums.</p></div></li>
+        <li><span class="num">07</span><div><h3>Wissenschaft &amp; Lehre</h3><p>Universitätslektor, juristische Grundausbildung, Verbindung von Theorie und unternehmerischer Praxis.</p></div></li>
+      </ol>
     </div>
   </section>
 
@@ -356,22 +360,22 @@
       <h2>Vier Leistungsbereiche für Ihre Kommunikation.</h2>
     </div>
     <div class="wrap">
-      <div class="offer">
-        <div>
+      <div class="menu">
+        <div class="menu-row">
           <h3>Strategische Positionierung</h3>
-          <ul><li>Organisationskommunikation</li><li>CEO-Positionierung</li><li>Personal Branding</li><li>Stakeholder-Management</li></ul>
+          <p>Organisationskommunikation · CEO-Positionierung · Personal Branding · Stakeholder-Management</p>
         </div>
-        <div>
+        <div class="menu-row">
           <h3>Medien &amp; Training</h3>
-          <ul><li>Medientrainings</li><li>Klassische Medienarbeit</li><li>Videoproduktionen</li><li>Pressemitteilungen &amp; Storytelling</li><li>Interne Kommunikation</li></ul>
+          <p>Medientrainings · Klassische Medienarbeit · Videoproduktionen · Pressemitteilungen &amp; Storytelling · Interne Kommunikation</p>
         </div>
-        <div>
+        <div class="menu-row">
           <h3>Krisen &amp; Digitales</h3>
-          <ul><li>Krisenkommunikation</li><li>Social-Media-Management</li><li>Employer Branding</li><li>Reputationsmanagement</li></ul>
+          <p>Krisenkommunikation · Social-Media-Management · Employer Branding · Reputationsmanagement</p>
         </div>
-        <div>
+        <div class="menu-row">
           <h3>Veranstaltungen &amp; Events</h3>
-          <ul><li>Planung</li><li>Gestaltung</li><li>Organisation</li></ul>
+          <p>Planung · Gestaltung · Organisation</p>
         </div>
       </div>
     </div>
@@ -457,14 +461,14 @@
         <div>
           <span class="role">Senior Consultant — IT &amp; Software</span>
           <h3>JTM Digital</h3>
-          <p style="color:var(--ink-soft)">Beratung im Bereich digitale Transformation und Softwareentwicklung.</p>
-          <a href="#" target="_blank" rel="noopener">jtm.digital →</a>
+          <p>Beratung im Bereich digitale Transformation und Softwareentwicklung.</p>
+          <a href="#" target="_blank" rel="noopener">jtm.digital</a>
         </div>
         <div>
           <span class="role">Managing Partner — PR &amp; Kommunikation</span>
           <h3>Lumen PR</h3>
-          <p style="color:var(--ink-soft)">Strategische Kommunikationsberatung für Unternehmen und Führungspersönlichkeiten.</p>
-          <a href="#" target="_blank" rel="noopener">lumen-pr.at →</a>
+          <p>Strategische Kommunikationsberatung für Unternehmen und Führungspersönlichkeiten.</p>
+          <a href="#" target="_blank" rel="noopener">lumen-pr.at</a>
         </div>
       </div>
     </div>
