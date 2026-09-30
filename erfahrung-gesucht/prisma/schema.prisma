@@ -1,0 +1,75 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// Alle Tabellen tragen "region", damit mehrere Bezirke / Whitelabel-Instanzen
+// in einer Datenbank oder in getrennten Instanzen laufen können.
+
+model Business {
+  id           String       @id @default(cuid())
+  region       String
+  name         String
+  branche      String
+  ort          String
+  adresse      String // exakter Standort (Betriebe sind öffentlich)
+  lat          Float
+  lng          Float
+  kontaktName  String
+  kontaktEmail String
+  kontaktTel   String
+  postings     JobPosting[]
+}
+
+model JobPosting {
+  id            String     @id @default(cuid())
+  businessId    String
+  business      Business   @relation(fields: [businessId], references: [id], onDelete: Cascade)
+  taetigkeit    String // Schlüssel aus config/app.config.ts
+  zeitraum      String // kommagetrennte Schlüssel: wochenende,abend,saison,werktags
+  tage          String // Freitext, z. B. "Fr–So ab 15 Uhr"
+  stundenProWoche Int
+  beschreibung  String
+  anstellungsart String // geringfuegig | teilzeit | offen
+  aktiv         Boolean    @default(true)
+  erstelltAm    DateTime   @default(now())
+  interests     Interest[]
+}
+
+model SeniorProfile {
+  id            String     @id @default(cuid())
+  region        String
+  vorname       String
+  ort           String
+  ortsteil      String?
+  // Nur verfremdete Position (~1 km Raster + Versatz). Exakte Adresse wird nie gespeichert.
+  fuzzyLat      Float
+  fuzzyLng      Float
+  radiusKm      Int
+  erfahrung     String
+  tags          String // kommagetrennt
+  verfuegbarkeit String // kommagetrennt
+  anrede        String     @default("sie") // sie | du
+  kontaktEmail  String
+  kontaktTel    String
+  aktiv         Boolean    @default(true)
+  erstelltAm    DateTime   @default(now())
+  interests     Interest[]
+}
+
+// Interesse einer Seite an der anderen. Kontakt frei, wenn beide Richtungen existieren.
+model Interest {
+  id         String        @id @default(cuid())
+  postingId  String
+  posting    JobPosting    @relation(fields: [postingId], references: [id], onDelete: Cascade)
+  seniorId   String
+  senior     SeniorProfile @relation(fields: [seniorId], references: [id], onDelete: Cascade)
+  von        String // "business" | "senior"
+  erstelltAm DateTime      @default(now())
+
+  @@unique([postingId, seniorId, von])
+}
