@@ -1,0 +1,37 @@
+ERFAHRUNG GESUCHT – statischer Prototyp (für FTP-Upload)
+=========================================================
+
+Upload
+------
+Den GESAMTEN Inhalt dieses Ordners (index.html, css/, js/, vendor/) per FTP in ein
+beliebiges Verzeichnis Ihres Webspace hochladen und im Browser index.html öffnen.
+Es wird KEIN PHP, KEINE Datenbank und KEIN Node.js benötigt. Es funktioniert auch,
+wenn Sie index.html lokal per Doppelklick öffnen.
+
+Was ist anders als im Next.js-Projekt?
+--------------------------------------
+- Alles läuft im Browser. Demo-Daten stehen in js/data.js.
+- Rolle, Interessen, neu angelegte Gesuche/Profile werden nur im localStorage des
+  jeweiligen Browsers gespeichert (nicht geteilt zwischen Personen/Geräten).
+  Button "Demo zurücksetzen" in der Kopfleiste löscht das wieder.
+- Das ist ein reiner Klick-Prototyp. Die Kontakt-Freigabe (Double-Opt-in) ist hier
+  nur simuliert; in einer echten Version prüft der Server das.
+- Für Zeilen-Links wird ein "#" verwendet (z. B. index.html#/ideen). Dadurch sind
+  keine Server-Einstellungen (Rewrite-Regeln) nötig.
+
+Konfiguration
+-------------
+js/config.js  Titel, Claim, Region (Orte, Kartenmitte), Tätigkeiten, alle Texte
+              (Sie/Du), Betriebs-Infoseite, Impressum/Datenschutz-Platzhalter und
+              die Zuverdienst-Rechnerwerte (Bereich "earnings", "Stand" beachten).
+js/data.js    fiktive Betriebe, Gesuche, Profile.
+css/style.css Design (Farben oben als CSS-Variablen).
+
+Hinweise
+--------
+- Die Karte lädt Kacheln von OpenStreetMap (tile.openstreetmap.org). Dabei wird die
+  IP-Adresse übermittelt. Für den Echtbetrieb einen eigenen Tile-Server eintragen
+  (config.js -> app.tiles.url) und in der Datenschutzerklärung erwähnen.
+- Rechnerwerte sind PLATZHALTER und müssen vor Livegang geprüft werden. Keine
+  Rechts-/Steuerberatung.
+- Die Seite ist per <meta robots noindex> vor Suchmaschinen geschützt.
